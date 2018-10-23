@@ -27,13 +27,16 @@ const changeDot = () => {
   dots[active].classList.add('active');
 }
 
-const autoChange = () => {
-  if (active === 2) active = -1;
-  active++
+const updateInformations = () => {
   changeDot();
   image.src = slideList[active].img;
   text.textContent = slideList[active].text;
+}
 
+const autoChange = () => {
+  if (active === 2) active = -1;
+  active++
+  updateInformations();
 }
 
 const keyChangeSlide = (event) => {
@@ -49,12 +52,10 @@ const keyChangeSlide = (event) => {
   }
   if (active === slideList.length) {
     active = 0;
-  } else if (active === -1) {
+  } else if (active < 0) {
     active = slideList.length - 1;
   }
-  changeDot();
-  image.src = slideList[active].img;
-  text.textContent = slideList[active].text;
+  updateInformations();
   slideInterval = setInterval(autoChange, time);
 }
 
