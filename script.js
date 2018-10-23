@@ -28,12 +28,35 @@ const changeDot = () => {
 }
 
 const autoChange = () => {
+  if (active === 2) active = -1;
   active++
-  if (active === 3) active = 0;
   changeDot();
   image.src = slideList[active].img;
   text.textContent = slideList[active].text;
 
 }
 
-setInterval(autoChange, time);
+const keyChangeSlide = (event) => {
+  switch (event.keyCode) {
+    case 37:
+      clearInterval(slideInterval);
+      active--;
+      break;
+    case 39:
+      clearInterval(slideInterval);
+      active++;
+      break;
+  }
+  if (active === slideList.length) {
+    active = 0;
+  } else if (active === -1) {
+    active = slideList.length - 1;
+  }
+  changeDot();
+  image.src = slideList[active].img;
+  text.textContent = slideList[active].text;
+  slideInterval = setInterval(autoChange, time);
+}
+
+let slideInterval = setInterval(autoChange, time);
+window.addEventListener('keydown', keyChangeSlide);
